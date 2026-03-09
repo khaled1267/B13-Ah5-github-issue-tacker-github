@@ -261,7 +261,7 @@ const displayissue = (issues) => {
 
                     <div class="flex justify-between items-center mb-4">
 
-                         <img src="${issue.status === 'open' ? './Open-Status.png' : './Closed-Status.png'}" class="w-8 h-8 rounded-full shadow-sm".png'">
+                         <img src="${issue.status === 'open' ? './open-status.png' : './Closed-Status.png'}" class="w-8 h-8 rounded-full shadow-sm".png'">
 
                         <span class="text-[10px] font-bold uppercase px-2 py-1 rounded ${priorityStyle}">
 
