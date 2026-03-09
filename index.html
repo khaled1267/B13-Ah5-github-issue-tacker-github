@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GitHub Issues Tracker - Login</title>
+
+   
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+
+
+    <style>
+
+        * {
+
+            font-family: "Geist", sans-serif;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="min-h-screen bg-white flex items-center justify-center p-4">
+
+
+
+    <div class="max-w-md w-full space-y-6">
+
+       
+
+        <div class="text-center space-y-4">
+
+            <div class="flex justify-center">
+
+                <img src="./github-logo.png" alt="GitHub Logo" class="w-16 h-16">
+
+            </div>
+
+            <div>
+
+                <h1 class="text-3xl font-bold text-neutral">GitHub Issues Tracker</h1>
+
+                <p class="text-slate-500">Sign in to manage your issues</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card bg-white shadow-xl ">
+
+            <div class="card-body">
+
+                <div class="form-control">
+
+                    <label class="label">
+
+                        <span class="label-text font-bold text-neutral">Username</span>
+
+                    </label>
+
+                    <input id="input-user" type="text" class="input input-bordered bg-gray-200" placeholder="Enter Username" />
+
+                    <label class="label">
+
+                        <span class="label-text-alt text-primary font-medium">Default: admin</span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="form-control mt-2">
+
+                    <label class="label">
+
+                        <span class="label-text font-bold text-neutral">Password</span>
+
+                    </label>
+
+                    <input id="input-pass" type="password" class="input input-bordered bg-gray-200" placeholder="Enter Password" />
+
+                    <label class="label">
+
+                        <span class="label-text-alt text-primary font-medium">Default: admin123</span>
+
+                    </label>
+
+                </div>
+
+               
+
+                <div class="form-control mt-6">
+
+                    <button id="btn-login" class="btn btn-primary rounded-full text-white">Sign In</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="space-y-4">
+
+            <div class="border border-dashed  p-1 flex items-center rounded">
+
+                <div class="flex-grow border-t border-gray-300"></div>
+
+                <span class="px-3 text-gray-500 font-medium text-sm">OR</span>
+
+                <div class="flex-grow border-t border-gray-300"></div>
+
+            </div>
+
+
+
+            <div class="border border-dashed -lg text-center bg-white/50">
+
+                <h3 class="text-slate-500 text-md font-medium mb-3">Demo Credentials:</h3>
+
+               
+
+                <div class="bg-slate-50 py-6 px-4 rounded-xl border border-slate-100 shadow-inner">
+
+                    <p class="text-slate-700 text-lg">
+
+                        <span class="font-bold">Username:</span> admin
+
+                    </p>
+
+                    <p class="text-slate-700 text-lg">
+
+                        <span class="font-bold">Password:</span> admin123
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <script src="./login.js"></script>
+
+</body>
+
+</html>
