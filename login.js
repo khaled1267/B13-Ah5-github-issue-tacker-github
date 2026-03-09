@@ -18,7 +18,7 @@ document.getElementById('btn-login').addEventListener('click', function () {
 
      
 
-        window.location.assign('/tracker.html')
+        window.location.assign('./tracker.html')
 
     }
 
