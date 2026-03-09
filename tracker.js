@@ -1,139 +1,314 @@
-let allIssues = [];
+ let allIssues = [];
 
-// API thaka data load korlam
+
+
 const loadissue = () => {
+
     const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
+
+
     fetch(url)
+
         .then((res) => res.json())
+
         .then((data) => {
+
             const issuesArray = data.data || data.issues || data;
 
+
+
             if (Array.isArray(issuesArray)) {
+
                 allIssues = issuesArray;
+
                 updateTotalCount(allIssues.length, 'All');
+
                 displayissue(allIssues);
+
             }
+
         })
+
         .catch(err => {
-            console.error("Fetch Error:", err);
-            document.getElementById("total-issues").innerText = "Error Loading Data";
+
+            const totalElement = document.getElementById("total-issues");
+
+            if(totalElement) totalElement.innerText = "Error Loading Issues";
+
         });
+
 };
 
-// filter function set korlam
+
+// filter funtion 
 
 const filterIssues = (status) => {
+
     let filtered;
+
     if (status === 'All') {
+
         filtered = allIssues;
+
     } else {
+
         filtered = allIssues.filter(issue =>
+
             issue.status.toLowerCase() === status.toLowerCase()
+
         );
+
     }
+
     updateTotalCount(filtered.length, status);
+
     displayissue(filtered);
+
 };
 
+
+
+// suarch funtion
 
 const searchIssues = () => {
+
     const searchTerm = document.getElementById("search-input").value.toLowerCase();
+
     const filtered = allIssues.filter(issue =>
+
         issue.title.toLowerCase().includes(searchTerm)
+
     );
+
     updateTotalCount(filtered.length, 'Filtered');
+
     displayissue(filtered);
+
 };
 
-// সংখ্যা আপডেট korlam
+
+
+// total count 
+
 const updateTotalCount = (count, label) => {
+
     const totalElement = document.getElementById("total-issues");
-    if (totalElement) {
+
+    if(totalElement) {
+
         totalElement.innerText = `${count} ${label === 'All' ? '' : label} Issues`;
+
     }
+
 };
 
+
+
+// popup funtion 
 
 const showDetails = (issueId) => {
+
     const issue = allIssues.find(i => (i.id || i._id || i.title) == issueId);
+
     if (!issue) return;
 
+
+   
     const modalContent = document.getElementById("modal-content");
+
     modalContent.innerHTML = `
+
         <div class="p-8">
+
             <h2 class="text-2xl font-bold text-gray-800 mb-2">${issue.title}</h2>
+
             <div class="flex items-center gap-2 mb-6">
-                <span class="bg-green-500 text-white text-[12px] font-bold px-3 py-1 rounded-full uppercase">${issue.status}</span>
-                <span class="text-gray-400 text-sm">• By ${issue.author || 'User'} • ${issue.date || '2026'}</span>
+
+                <span class="bg-[#22C55E] text-white text-[12px] font-medium px-3 py-0.5 rounded-full uppercase">
+
+                    ${issue.status}
+
+                </span>
+
+                <span class="text-gray-400 text-sm">• Opened by <span class="text-gray-600 font-medium">${issue.author || 'User'}</span> • ${issue.date || '1/15/2024'}</span>
+
             </div>
+
+           
+
+            <div class="flex gap-2 mb-6">
+
+         <span class="bg-[#FEECEC] text-[#EF4444] text-[10px] font-bold px-3 py-1 rounded-2xl uppercase flex items-center gap-1">
+
+                    <i class="fa-solid fa-bug text-[8px]"></i> BUG
+
+                </span>
+ <span class="bg-[#FEF3C7] text-[#D97706] text-[10px] font-bold px-3 py-1 rounded-2xl border border-yellow-100 uppercase flex items-center gap-1">
+  <i class="fa-solid fa-circle-question text-[8px]"></i> HELP WANTED
+
+                </span>
+
+            </div>
+
+
+
+            <p class="text-gray-600">${issue.description}</p>
+
             
-            <p class="text-gray-600 text-sm mb-8 leading-relaxed">${issue.description}</p>
-            
+
+           
+
             <div class="bg-gray-50 rounded-xl p-6 grid grid-cols-2 gap-4">
+
                 <div>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold mb-1">Assignee</p>
-                    <p class="text-sm font-bold text-gray-800">${issue.author || 'Unassigned'}</p>
+
+                    <p class="text-[11px] text-gray-400 uppercase font-bold tracking-wider mb-1">Assignee:</p>
+
+                    <p class="text-sm font-bold text-gray-800">${issue.author || 'User'}</p>
+
                 </div>
+
                 <div>
-                    <p class="text-[10px] text-gray-400 uppercase font-bold mb-1">Priority</p>
-                    <span class="text-xs font-bold text-red-500 uppercase">${issue.priority || 'Normal'}</span>
+
+                    <p class="text-[11px] text-gray-400 uppercase font-bold tracking-wider mb-1">Priority:</p>
+
+    <span class="inline-block bg-[#EF4444] text-white text-[10px] font-bold px-4 py-1 rounded  ">
+
+                        ${issue.priority || 'HIGH'}
+
+                    </span>
+
                 </div>
+
             </div>
+
+
 
             <div class="mt-8 flex justify-end">
-                <button onclick="closeModal()" class="btn btn-primary px-10">Close</button>
+
+                <button onclick="closeModal()" class="bg-[#6200EE] text-white px-10 py-2.5 rounded-lg font-bold hover:bg-purple-700 transition-all shadow-lg active:scale-95">
+
+                    Close
+
+                </button>
+
             </div>
+
         </div>
+
     `;
 
+
+
     const modal = document.getElementById("issue-modal");
+
     modal.classList.remove("hidden");
+
     modal.classList.add("flex");
-    setTimeout(() => modalContent.classList.remove("scale-95"), 10);
+
 };
+
 
 
 const closeModal = () => {
+
     const modal = document.getElementById("issue-modal");
-    const modalContent = document.getElementById("modal-content");
-    modalContent.classList.add("scale-95");
-    setTimeout(() => {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-    }, 200);
+
+    modal.classList.add("hidden");
+
+    modal.classList.remove("flex");
+
 };
 
-// কার্ড ডিসপ্লে korlam
+
+
+// main card funtion
+
 const displayissue = (issues) => {
+
     const issuecontainer = document.getElementById("issue-container");
+
     issuecontainer.innerHTML = "";
 
+
+
     issues.forEach((issue) => {
+
         const id = issue.id || issue._id || issue.title;
+
+        let priorityStyle = "text-red-500 bg-red-50 border-red-100";
+
+        if (issue.priority === "Medium") priorityStyle = "text-orange-500 bg-orange-50 border-orange-100";
+
+        else if (issue.priority === "Low") priorityStyle = "text-green-500 bg-green-50 border-green-100";
+
+
+
         const card = document.createElement("div");
-        card.className = "cursor-pointer group h-full";
+
+        card.className = "cursor-pointer group";
+
         card.onclick = () => showDetails(id);
 
+       
+
         card.innerHTML = `
-            <div class="border-t-4 ${issue.status?.toLowerCase() === 'open' ? 'border-t-green-500' : 'border-t-purple-500'} rounded-xl p-5 h-full flex flex-col justify-between bg-[#EFEFEF] hover:bg-white hover:shadow-xl transition-all duration-300">
+
+            <div class="border-t-4 ${issue.status?.toLowerCase() === 'open' ? 'border-t-green-500' : 'border-t-purple-500'} rounded-xl p-5 h-full flex flex-col justify-between bg-[#EFEFEF] hover:bg-white hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-1">
+
                 <div>
+
                     <div class="flex justify-between items-center mb-4">
-                         <img src="${issue.status === 'open' ? './open-status.png' : './Closed- Status .png'}" class="w-8 h-8 rounded-full shadow-sm" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6568/6568643.png'">
-                        <span class="text-[10px] font-bold uppercase px-2 py-1 rounded border border-gray-300 bg-white">
-                            ${issue.priority || 'Normal'}
+
+                         <img src="${issue.status === 'open' ? './open-status.png' : './Closed- Status .png'}" class="w-8 h-8 rounded-full shadow-sm".png'">
+
+                        <span class="text-[10px] font-bold uppercase px-2 py-1 rounded ${priorityStyle}">
+
+                            ${issue.priority || 'High'}
+
                         </span>
+
                     </div>
-                    <h3 class="font-bold text-gray-800   text-sm mb-2 group-hover:text-primary transition-colors">${issue.title}</h3>
-                    <p class="text-xs text-gray-500 mb-4 line-clamp-3">${issue.description}</p>
+
+                    <h3 class="font-bold text-gray-800 text-sm mb-2 group-hover:text-purple-600 transition-colors">${issue.title}</h3>
+
+                    <p class="text-xs text-gray-500 mb-4 ">${issue.description}</p>
+
                 </div>
-                <div class="border-t border-gray-200 pt-3 text-[10px] text-gray-400">
-                    <p>#${id.toString().slice(-4)} by <span class="font-bold text-gray-600">${issue.author || 'User'}</span></p>
+
+
+
+                <div>
+
+                    <div class="flex gap-2 mb-4 flex-wrap">
+
+                        <span class="bg-[#FECACA] text-[#EF4444] text-[9px] font-bold px-2 py-1 rounded-2xl border  uppercase"> <i class="fa-solid fa-bug text-[8px]"></i>  BUG</span>
+
+                        <span class="bg-[#FDE68A] text-[#D97706] text-[9px] font-bold px-2 py-1 rounded-2xl uppercase">  <i class="fa-solid fa-bug text-[8px]"></i>  Help wanted</span>
+
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-3 text-[10px] text-gray-400">
+
+                        <p>#${id.toString().slice(-4)} by <span class="font-bold text-gray-600">${issue.author || 'User'}</span></p>
+
+                        <p>${issue.date || '1/15/2024'}</p>
+
+                    </div>
+
                 </div>
+
             </div>
+
         `;
+
         issuecontainer.appendChild(card);
+
     });
+
 };
+
+
 
 loadissue();
