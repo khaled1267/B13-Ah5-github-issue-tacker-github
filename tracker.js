@@ -69,7 +69,7 @@ const filterIssues = (status) => {
 
 
 
-// suarch funtion
+// search funtion
 
 const searchIssues = () => {
 
